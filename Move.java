@@ -1,4 +1,4 @@
-public class Move() {
+public class Move {
     String name;
     int pow; // power
     int acc; // accuracy
