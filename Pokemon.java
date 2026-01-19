@@ -1,19 +1,27 @@
-// Collaborators: Oliver Holden
+// Collaborators: Oliver Holden, Sarah Mo
 
-public abstract class Pokemon{
+public class Pokemon{
   private String name;
   private int HP,maxHP;
   private int def;
   private Move move1, move2, move3, move4;
 
-  // empty constructor unused, because parameters unused
-  public Pokemon(){
+  public Pokemon() { // unused
     name = "Olikoali";
     HP, maxHP = 1000;
     def = 100;
     move1, move2, move3, move4 = new Move ("Sleep", 0, 100);
   }
-  public abstract Pokemon(String name, int maxHP, int def, Move move1, Move move2, Move move3, Move move4);
+  public Pokemon(String name, int maxHP, int def, Move move1, Move move2, Move move3, Move move4){
+    this.name = name;
+    this.HP, this.maxHP = maxHP;
+    this.def = def;
+
+    this.move1 = move1;
+    this.move2 = move2;
+    this.move3 = move3;
+    this.move4 = move4;
+  }
 
   public String getName(){
     return name;
