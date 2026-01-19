@@ -7,8 +7,10 @@ public class Move() {
         this.acc = acc;
     }
 
-    public void setpow(){
-
+    public void powChange(multipler) { // increases/decreases power by multiplier
+        this.pow = pow * multipler;
     }
-
+    public void accChange(multiplier) { // increases/decreases accuracy by multiplier
+        this.acc = acc * multipler;
+    }
 }
