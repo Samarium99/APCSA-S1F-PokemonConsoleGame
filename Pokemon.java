@@ -1,4 +1,4 @@
-// Collaborators: Oliver Holden, Sarah Mo
+// Collaborators: Oliver Holden
 
 public class Pokemon{
   private String name;
