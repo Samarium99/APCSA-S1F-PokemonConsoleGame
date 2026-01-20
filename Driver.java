@@ -1,22 +1,29 @@
+import java.util.Scanner;
 public class Driver{
     public static void main(String[] args){
+        Scanner sc = new Scanner(System.in); 
         int numRounds = 0;
 
+        setUp();   
 
-
-        setUp();
-    }
-
-    public static void playRound(){
 
     }
     
     public static void setUp(){ // Code for initializing game details
-        Pokemon Togepi = new Player("Togepi", );
-        Pokemon Pichu = new Player("Pichu", );
-        Pokemon Cyndaquil = new Player("Cyndaquil", );
+        Pokemon Togepi = new Pokemon("Togepi", );
+        Pokemon Pichu = new Pokemon("Pichu", );
+        Pokemon Cyndaquil = new Pokemon("Cyndaquil", );
+        Pokemon[] playerTeam = {Togepi, Pichu, Cyndaquil};
 
-        Pokemon Porygon = new Gym("Porygon", );
-        Pokemon Togepi = new Player("Togepi", );
+        Pokemon Porygon = new Pokemon("Porygon", );
+        Pokemon Arbok = new Pokemon("Arbok", );
+        Pokemon[] gymTeam = {Arbok, Porygon};
+
+        System.out.println("");
+    }
+
+    public static void playRound(){
+        System.out.println("");
+        
     }
 }
