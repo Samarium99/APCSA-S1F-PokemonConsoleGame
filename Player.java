@@ -1,5 +1,17 @@
 public class Player extends Trainer{
     // Handles Player UI and Updating
+    public Player(userName, playerTeam){
+        super(userName, playerTeam);
+    }
+
+    public lost(){
+        for(int i = 0; i <= 2; i++){
+            if(team[i].getFaint() == false){
+                return true;
+            }
+        }
+        return false;
+    }
 
 }
 

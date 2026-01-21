@@ -26,6 +26,21 @@ public class Pokemon{
     this.move4 = move4;
   }
 
+  public void heal(int x){
+    this.HP = getHP() + x;
+    if(this.HP > this.maxHP){
+      this.setHP(this.getMaxHP());
+    }
+  }
+
+  public void takeDamage(int x){
+    this.HP = getHP - x;
+    if(this.HP < 0){
+      isFainted = true;
+      System.out.println(this.getName() + " has fainted");
+    }
+  }
+
   public String getName(){
     return name;
   }
@@ -53,5 +68,29 @@ public class Pokemon{
 
   public void setDef(int x){
     def = x;
+  }
+
+  public Boolean getFaint(){
+    return isFainted;
+  }
+
+  public Boolean setFaint(isFainted){
+    this.isFainted = isFainted;
+  }
+  
+  public Move getMoveOne(){
+    return move1;
+  }
+
+  public Move getMoveTwo(){
+    return move2;
+  }
+
+  public Move getMoveThree(){
+    return move3;
+  }
+
+  public Move getMoveFour(){
+    return move4;
   }
 }
