@@ -10,14 +10,14 @@ public class Move {
         this.pow = pow;
         this.acc = acc;
         healPow = 0;
-        defPow = 1;
+        defPow = 1.0;
     }
     public Move(String name, int pow, int acc, int healPow){
         this.name = name;
         this.pow = pow;
         this.acc = acc;
         this.healPow = healPow;
-        defPow = 1;
+        defPow = 1.0;
     }
     public Move(String name, int pow, int acc, Double defPow){
         this.name = name;
@@ -45,10 +45,10 @@ public class Move {
     }
 
     // setters
-    public void powChange(Double multipler) { // increases/decreases power by multiplier
-        this.pow = pow * multipler;
+    public void powChange(Double multiplier) { // increases/decreases power by multiplier
+        this.pow = (int)(pow * multiplier);
     }
     public void accChange(Double multiplier) { // increases/decreases accuracy by multiplier
-        this.acc = acc * multipler;
+        this.acc = (int)(acc * multiplier);
     }
 }

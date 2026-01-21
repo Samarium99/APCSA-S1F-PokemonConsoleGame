@@ -5,7 +5,7 @@ public class Pokemon{
   private int HP,maxHP;
   private int def;
   private Move move1, move2, move3, move4;
-  private Boolean isFainted;
+  private boolean isFainted;
 
   public Pokemon() { // default
     name = "Olikoali";
@@ -34,7 +34,7 @@ public class Pokemon{
   }
 
   public void takeDamage(int x){
-    this.HP = getHP - x;
+    this.HP = getHP() - x;
     if(this.HP < 0){
       isFainted = true;
       System.out.println(this.getName() + " has fainted");
@@ -70,14 +70,14 @@ public class Pokemon{
     def = x;
   }
 
-  public Boolean getFaint(){
+  public boolean getFaint(){
     return isFainted;
   }
 
-  public Boolean setFaint(isFainted){
+  public void setFaint(boolean isFainted){
     this.isFainted = isFainted;
   }
-  
+
   public Move getMoveOne(){
     return move1;
   }

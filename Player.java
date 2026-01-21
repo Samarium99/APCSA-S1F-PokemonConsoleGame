@@ -1,26 +1,22 @@
 public class Player extends Trainer{
     // Handles Player UI and Updating
-    public Player(userName, playerTeam){
-        super(userName, playerTeam);
-    }
+    private String name;
+    private Pokemon[] team;
+    private Pokemon activePokemon;
 
-    public lost(){
-        for(int i = 0; i <= 2; i++){
-            if(team[i].getFaint() == false){
+    public Player(String name, Pokemon[] team){
+        super(name, team);
+    }
+    @Override
+    public boolean switchActivePokemon(Pokemon newActive){ // assumes no repeat pokemon in team, for when unfainted poekmon swithced
+        for (Pokemon p : team){
+            if (p == newActive) {
+                activePokemon = newActive;
+                System.out.println(name+" sends out "+activePokemon.getName()+"!");
                 return true;
             }
         }
+        System.out.println("This Pokemon is either fainted or not in your Team!");
         return false;
     }
-
 }
-
-
-    // public void switchActivePokemon(Pokemon newActive){ // assumes no repeat pokemon in team
-    //     int index = team.indexOf(newActive);
-    //     if (index != -1) {
-    //         activePokemon = index;
-    //     } else {
-    //         System.out.println("This Pokemon is not in your Team!");
-    //     }
-    // }

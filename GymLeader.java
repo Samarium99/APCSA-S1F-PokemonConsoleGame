@@ -1,16 +1,15 @@
 public class GymLeader extends Trainer{
     // Handles Opponent moves and Updating
-    public GymLeader(userName, playerTeam){
-        super(userName, playerTeam);
-    }
+    private String name;
+    private Pokemon[] team;
+    private Pokemon activePokemon;
 
-    public lost(){
-        for(int i = 0; i <= 1; i++){
-            if(team[i].getFaint() == false){
-                return true;
-            }
-        }
-        return false;
+    public GymLeader(String name, Pokemon[] team){
+        super(name, team);
     }
-    
+    // public Move generateMove(int choice); // randomly generates move
+    @Override
+    public boolean switchActivePokemon(Pokemon newActive){ // switches alive pokemon
+      return false;
+    }
 }
