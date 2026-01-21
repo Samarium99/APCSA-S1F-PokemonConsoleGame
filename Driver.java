@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.util.Random;
 public class Driver{
     static int numRounds = 0;
-    static String userName = "New Kid";
+    static String userName;
 
     static Pokemon[] playerTeam;
     static Trainer player;
@@ -22,7 +22,10 @@ public class Driver{
         gymLeader = new GymLeader("Gym Leader Olikoali", gymTeam);
 
         while (!player.lost() && !gymLeader.lost() && numRounds <= 25){
-            System.out.println("-----\nROUND "+intToString(numRounds));
+            System.out.println("-----------------------------\nROUND "+intToString(numRounds));
+            System.out.println("Your active pokemon is: " + player.getActivePokemon().getName());
+            System.out.println("Your opponents active pokemon is: " + gymLeader.getActivePokemon().getName());
+            System.out.println("-----------------------------");
             playRound(sc);
             numRounds++;
         }
@@ -52,7 +55,9 @@ public class Driver{
         System.out.print("\u001b[33m");
         System.out.println("\n** HOW TO PLAY: To advance dialogue, press the ENTER key **");
         System.out.print("Please answer with what you would like to be called:\n> ");
-        userName = input.nextLine();
+        String response = input.nextLine();
+        userName = (response.trim().isEmpty()) ? "New Kid" : response;
+        System.out.println("You will be called "+userName+".");
         System.out.println("---Starting Game...");
         System.out.print("\u001b[0m\u001b[1mYoungster Samarium99:\t");
         System.out.println("\u001b[0m"+userName+"! There you are! Professor Novillo needed to ask you a favor, but she is busy preparing another exam for her 7th period APCSA class, so I'm here to carry along the message.");
@@ -106,8 +111,6 @@ public class Driver{
         ask(input);
     }
     public static void ask(Scanner input) {
-      System.out.println("Your active pokemon is: " + player.getActivePokemon().getName());
-      System.out.println("Your opponents active pokemon is: " + gymLeader.getActivePokemon().getName());
         System.out.println("| What will "+player.getActivePokemon().getName()+" do? | 1. Fight | 2. Pokemon | 3. Items | 4. Run");
         int choice = Integer.parseInt(input.nextLine().trim());
         if (choice == 1) {
