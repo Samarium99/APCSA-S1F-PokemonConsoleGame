@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.Random;
+import java.util.Arrays;
 public class Driver{
     static int numRounds = 0;
     static String userName;
@@ -109,16 +110,25 @@ public class Driver{
     }
     public static void playRound(Scanner input){
         ask(input);
+        check();
+        respond();
+        check();
     }
     public static void ask(Scanner input) {
-        System.out.println("| What will "+player.getActivePokemon().getName()+" do? | 1. Fight | 2. Pokemon | 3. Items | 4. Run");
-        int choice = Integer.parseInt(input.nextLine().trim());
+        System.out.print("| What will "+player.getActivePokemon().getName()+" do? | 1. Fight | 2. Pokemon | 3. Items | 4. Run\n> ");
+        int choice = -1;
+        try {
+          choice = Integer.parseInt(input.nextLine().trim());
+        } catch (Exception e){
+          System.out.println("Please input a number correlating to your choice.");
+          ask(input);
+        }
         if (choice == 1) {
             selectMove(input);
         } else if (choice == 2){
             selectPokemon(input);
         } else if (choice == 3){
-            System.out.println("Your bag is empty. You weren't given any items, at least nothing that could help you here.");
+            System.out.println("Your bag is empty. You weren't given any items, at least not anything that could help you here.");
             ask(input);
         } else if (choice == 4){
             System.out.println("You cannot run, and you cannot hide.");
@@ -132,12 +142,26 @@ public class Driver{
     public static void selectPokemon(Scanner input){
       Pokemon[] team = player.getTeam();
       int num = 1;
+      int pos = 0;
       System.out.println("Choose a Pokemon: ");
       for (Pokemon p : team) {
-        System.out.println("\t"+num+". "+team[num-1].getName());
+        if (p != null){
+          System.out.println("\t"+num+". "+team[pos].getName());
+          num++;
+          pos++;
+        }
       }
+      System.out.print("> ");
       Pokemon choice = team[ Integer.parseInt(input.nextLine().trim())-1 ];
-      player.switchActivePokemon(choice);
+      System.out.println("You are switching to "+choice.getName());
+      if (choice == player.getActivePokemon()) {
+        System.out.println("This Pokemon is already out!");
+        selectPokemon(input);
+      } else if (choice.getFaint()) {
+        System.out.println("This Pokemon is Fainted!");
+      } else {
+        player.switchActivePokemon(choice);
+      }
     }
 
     public static void selectMove(Scanner input){

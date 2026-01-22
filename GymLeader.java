@@ -1,8 +1,6 @@
 public class GymLeader extends Trainer{
     // Handles Opponent moves and Updating
-    private String name;
-    private Pokemon[] team;
-    private Pokemon activePokemon;
+    // inherits instance variblees, name, team, activePokemon
 
     public GymLeader(String name, Pokemon[] team){
         super(name, team);

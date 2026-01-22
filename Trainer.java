@@ -1,20 +1,25 @@
 public abstract class Trainer {
     // abstract super-class of Player and GymLeader
-    private String name;
-    private Pokemon[] team;
-    private Pokemon activePokemon; // activePokemon in team
+    // Instance variables are inherited
+    String name;
+    Pokemon[] team;
+    Pokemon activePokemon;
 
     public Trainer() { // default
         name = "[No Name]";
-        team[0] = new Pokemon();
+        team = new Pokemon[6];
+        team[0] = new Pokemon(); // has at least one pokemon
         activePokemon = team[0];
     }
     public Trainer(String name, Pokemon[] team){
         this.name = name;
         this.team = team;
-        this.activePokemon = team[0];
-    }; // activePokemon always set as team[0]
-
+        if (team == null){
+          this.activePokemon = null;
+        } else {
+          this.activePokemon = team[0];
+        }
+    }
     public Pokemon getActivePokemon(){
         return activePokemon;
     }

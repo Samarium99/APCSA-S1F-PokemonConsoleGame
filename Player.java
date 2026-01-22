@@ -1,16 +1,18 @@
 public class Player extends Trainer{
     // Handles Player UI and Updating
-    private String name;
-    private Pokemon[] team;
-    private Pokemon activePokemon;
+    // inherits instance variables name, team, etc.
 
     public Player(String name, Pokemon[] team){
         super(name, team);
     }
     @Override
     public boolean switchActivePokemon(Pokemon newActive){ // assumes no repeat pokemon in team, for when unfainted poekmon swithced
+        // if (team == null || team.length == 0) {
+        //   System.out.println("Your team is empty! ERORRR.");
+        //   return false;
+        // }
         for (Pokemon p : team){
-            if (p == newActive) {
+            if (p != null && p == newActive) {
                 activePokemon = newActive;
                 System.out.println(name+" sends out "+activePokemon.getName()+"!");
                 return true;
