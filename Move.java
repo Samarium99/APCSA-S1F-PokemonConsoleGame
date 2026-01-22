@@ -1,9 +1,9 @@
 public class Move {
-    String name;
-    int pow; // power
-    int acc; // accuracy
-    int healPow; // for moves that heal
-    Double defPow; // for moves that reduce defense
+    private String name;
+    private int pow; // power
+    private int acc; // accuracy
+    private int healPow; // for moves that heal
+    private Double defPow; // for moves that reduce defense
 
     public Move(String name, int pow, int acc){
         this.name = name;

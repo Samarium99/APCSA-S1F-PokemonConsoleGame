@@ -86,14 +86,14 @@ public class Driver{
         input.nextLine();
     }
     public static void printResults() {
-        System.out.print("The game ended in ");
-        if (player.lost() == gymLeader.lost()){
-            System.out.print("a DRAW.");
-        } else if (player.lost()){
-            System.out.print("DEFEAT :(");
-        } else if (gymLeader.lost()){
-            System.out.print("VICTORY! :D");
-        }
+        // System.out.print("The game ended in ");
+        // if (player.lost() == gymLeader.lost()){
+        //     System.out.print("a DRAW.");
+        // } else if (player.lost()){
+        //     System.out.print("DEFEAT :(");
+        // } else if (gymLeader.lost()){
+        //     System.out.print("VICTORY! :D");
+        // }
     }
 
     public static String intToString(int num){
@@ -120,6 +120,7 @@ public class Driver{
         } catch (Exception e){
           System.out.println("Please input a number correlating to your choice.");
           ask(input);
+          return;
         }
         if (choice == 1) {
             selectMove(input);
@@ -139,37 +140,70 @@ public class Driver{
 
     public static void selectPokemon(Scanner input){
       Pokemon[] team = player.getTeam();
-      int num = 1;
-      int pos = 0;
+      int num = 1; // displayed number
       System.out.println("Choose a Pokemon: ");
       for (Pokemon p : team) {
-        if (p != null){
-          System.out.println("\t"+num+". "+team[pos].getName());
+        if (p != null){ // if in team
+          System.out.println("\t"+num+". "+p.getName());
           num++;
-          pos++;
         }
       }
       System.out.print("> ");
-      Pokemon choice = team[ Integer.parseInt(input.nextLine().trim())-1 ];
-      System.out.println("You are switching to "+choice.getName());
-      if (choice == player.getActivePokemon()) {
-        System.out.println("This Pokemon is already out!");
+      int choice;
+      try { // is an int
+        choice = Integer.parseInt(input.nextLine().trim()); // displayed number
+      } catch (Exception e){
+        System.out.println("Please input a number correlating to your choice.");
         selectPokemon(input);
-      } else if (choice.getFaint()) {
+        return;
+      }
+      // is in range
+      if (choice < 1 || choice > num){
+        System.out.println("Please input a number correlating to your choice.");
+        selectPokemon(input);
+        return;
+      }
+      // find team index from choice
+      Pokemon selected;
+      int index = 0;
+      for (int i = 0; i < team.length; i++){
+        if (team[i] != null){
+          choice--; // only non-null
+        }
+        if (choice == 0){
+          index = i; // save total count
+          break;
+        }
+      }
+      selected = team[index];
+
+      // checking viable poke stats
+      System.out.println("You are switching to "+selected.getName());
+      if (selected == player.getActivePokemon()) {
+        System.out.println("This Pokemon is already out!");
+      } else if (selected.getFaint()) {
         System.out.println("This Pokemon is Fainted!");
       } else {
-        player.switchActivePokemon(choice);
+        player.switchActivePokemon(selected);
+        return;
       }
+      selectPokemon(input);
     }
 
     public static void selectMove(Scanner input){
-        int chooseMove;
+        int chooseMove = -1;
         System.out.println("Choose a move: ");
         System.out.println("    1. " + player.getActivePokemon().getMoveOne().getName());
         System.out.println("    2. " + player.getActivePokemon().getMoveTwo().getName());
         System.out.println("    3. " + player.getActivePokemon().getMoveThree().getName());
         System.out.println("    4. " + player.getActivePokemon().getMoveFour().getName());
-        chooseMove = Integer.parseInt(input.nextLine().trim());
+        try {
+          chooseMove = Integer.parseInt(input.nextLine().trim());
+        } catch (Exception e){
+          System.out.println("Please input a number correlating to your choice.");
+          selectMove(input);
+          return;
+        }
         Move movex = null;
         if(chooseMove == 1){
             movex = player.getActivePokemon().getMoveOne();
@@ -179,6 +213,10 @@ public class Driver{
             movex = player.getActivePokemon().getMoveThree();
         } else if(chooseMove == 4){
             movex = player.getActivePokemon().getMoveFour();
+        } else {
+          System.out.println("Please input a number correlating to your choice.");
+          selectMove(input);
+          return;
         }
         doMove1(movex);
     }
@@ -189,6 +227,7 @@ public class Driver{
       if(gymLeader.getActivePokemon().getFaint() == true){
           System.out.println("Opponents active pokemon has fainted");
           if(!gymLeader.lost()){
+            System.out.println("Opponent has lost");
               return;
           }else{
               gymLeader.switchActivePokemon();
@@ -212,6 +251,7 @@ public class Driver{
       if(player.getActivePokemon().getFaint() == true){
           System.out.println("Your active pokemon has fainted");
           if(!player.lost()){
+            System.out.println("You have lost");
               return;
           }
           else{
