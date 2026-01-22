@@ -110,9 +110,7 @@ public class Driver{
     }
     public static void playRound(Scanner input){
         ask(input);
-        check();
-        respond();
-        check();
+        response();
     }
     public static void ask(Scanner input) {
         System.out.print("| What will "+player.getActivePokemon().getName()+" do? | 1. Fight | 2. Pokemon | 3. Items | 4. Run\n> ");
@@ -183,41 +181,45 @@ public class Driver{
             movex = player.getActivePokemon().getMoveFour();
         }
         doMove1(movex);
+    }
 
-        if(gymLeader.getActivePokemon().getFaint() == true){
-            System.out.println("Opponents active pokemon has fainted");
-            if(!gymLeader.lost()){
-                return;
-            }else{
-                gymLeader.switchActivePokemon();
-                System.out.println("Opponents new active pokemon is " + gymLeader.getActivePokemon().getName());
-            }
-        } else {
+    public static void response(){
+      int chooseMove;
+      Move movex = null;
+      if(gymLeader.getActivePokemon().getFaint() == true){
+          System.out.println("Opponents active pokemon has fainted");
+          if(!gymLeader.lost()){
+              return;
+          }else{
+              gymLeader.switchActivePokemon();
+              System.out.println("Opponents new active pokemon is " + gymLeader.getActivePokemon().getName());
+          }
+      } else {
 
-        chooseMove = random.nextInt(4) + 1;
-        movex = null;
-        if(chooseMove == 1){
-            movex = gymLeader.getActivePokemon().getMoveOne();
-        } else if(chooseMove == 2){
-            movex = gymLeader.getActivePokemon().getMoveTwo();
-        }  else if(chooseMove == 3){
-            movex = gymLeader.getActivePokemon().getMoveThree();
-        } else if(chooseMove == 4){
-            movex = gymLeader.getActivePokemon().getMoveFour();
-        }
-        doMove2(movex);
+      chooseMove = random.nextInt(4) + 1;
+      movex = null;
+      if(chooseMove == 1){
+          movex = gymLeader.getActivePokemon().getMoveOne();
+      } else if(chooseMove == 2){
+          movex = gymLeader.getActivePokemon().getMoveTwo();
+      }  else if(chooseMove == 3){
+          movex = gymLeader.getActivePokemon().getMoveThree();
+      } else if(chooseMove == 4){
+          movex = gymLeader.getActivePokemon().getMoveFour();
+      }
+      doMove2(movex);
 
-        if(player.getActivePokemon().getFaint() == true){
-            System.out.println("Your active pokemon has fainted");
-            if(!player.lost()){
-                return;
-            }
-            else{
-                player.switchActivePokemon();
-                System.out.println("Your new active pokemone is " + player.getActivePokemon().getName());
-            }
-        }
-        }
+      if(player.getActivePokemon().getFaint() == true){
+          System.out.println("Your active pokemon has fainted");
+          if(!player.lost()){
+              return;
+          }
+          else{
+              player.switchActivePokemon();
+              System.out.println("Your new active pokemone is " + player.getActivePokemon().getName());
+          }
+      }
+      }
     }
 
     public static void doMove1(Move movex){
