@@ -6,7 +6,7 @@ public class Player extends Trainer{
         super(name, team);
     }
     @Override
-    public boolean switchActivePokemon(Pokemon newActive){ // assumes no repeat pokemon in team, for when unfainted poekmon swithced
+    public void switchActivePokemon(Pokemon newActive){ // assumes no repeat pokemon in team, for when unfainted poekmon swithced
         // if (team == null || team.length == 0) {
         //   System.out.println("Your team is empty! ERORRR.");
         //   return false;
@@ -15,10 +15,9 @@ public class Player extends Trainer{
             if (p != null && p == newActive) {
                 activePokemon = newActive;
                 System.out.println(name+" sends out "+activePokemon.getName()+"!");
-                return true;
+                return;
             }
         }
         System.out.println("This Pokemon is either fainted or not in your Team!");
-        return false;
     }
 }

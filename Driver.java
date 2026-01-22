@@ -17,10 +17,11 @@ public class Driver{
         setUp();
 
         Scanner sc = new Scanner(System.in);
-        introDialogue(sc);
-
+        settings(sc);
+        // following code assumes teams are not null
         player = new Player(userName, playerTeam);
         gymLeader = new GymLeader("Gym Leader Olikoali", gymTeam);
+        introDialogue(sc);
 
         while (!player.lost() && !gymLeader.lost() && numRounds <= 25){
             System.out.println("-----------------------------\nROUND "+intToString(numRounds));
@@ -48,18 +49,20 @@ public class Driver{
         Pokemon cyndaquil = new Pokemon("Cyndaquil", 250, 70, quickAttack, new Move("Flame Wheel", 60, 60), new Move("Inferno", 100, 45), tailWhip);
         playerTeam = new Pokemon[]{togepi, pichu, cyndaquil, null, null, null};
 
-        Pokemon porygon = new Pokemon("Porygon", 230, 70, tackle, thunderShock, new Move("Recover", 0, 30, 100), new Move("Headbutt", 30, 90));
-        Pokemon arbok = new Pokemon("Arbok", 200, 50, tailWhip, new Move("Bite", 40, 80), new Move("Leech Life", 30, 50, 25), tackle);
+        Pokemon porygon = new Pokemon("Porygon", 230, 70, tackle, thunderShock, new Move("Recover", 0, 30, 100), new Move("Headbutt", 50, 90));
+        Pokemon arbok = new Pokemon("Arbok", 200, 50, tailWhip, new Move("Bite", 60, 80), new Move("Leech Life", 50, 50, 25), tackle);
         gymTeam = new Pokemon[]{arbok, porygon, null, null, null, null};
     }
+    public static void settings(Scanner input){
+      System.out.print("\u001b[33m");
+      System.out.println("\n** HOW TO PLAY: To advance dialogue, press the ENTER key **");
+      System.out.print("Please answer with what you would like to be called:\n> ");
+      String response = input.nextLine();
+      userName = (response.trim().isEmpty()) ? "New Kid" : response;
+      System.out.println("You will be called "+userName+".");
+      System.out.println("---Starting Game...");
+    }
     public static void introDialogue(Scanner input){
-        System.out.print("\u001b[33m");
-        System.out.println("\n** HOW TO PLAY: To advance dialogue, press the ENTER key **");
-        System.out.print("Please answer with what you would like to be called:\n> ");
-        String response = input.nextLine();
-        userName = (response.trim().isEmpty()) ? "New Kid" : response;
-        System.out.println("You will be called "+userName+".");
-        System.out.println("---Starting Game...");
         System.out.print("\u001b[0m\u001b[1mYoungster Samarium99:\t");
         System.out.println("\u001b[0m"+userName+"! There you are! Professor Novillo needed to ask you a favor, but she is busy preparing another exam for her 7th period APCSA class, so I'm here to carry along the message.");
         System.out.print("> ...");
@@ -69,8 +72,25 @@ public class Driver{
         System.out.print("\u001b[3m(The Youngerster Samarium99 stares at you with wide eyes.)");
         input.nextLine();
         System.out.print("\u001b[0m\u001b[1mYoungster Samarium99:\t");
-        System.out.println("\u001b[0mAnyway, here are your pokemon.");
+        System.out.println("\u001b[0mAnyway, here are your Pokemon.");
         System.out.print("> Thanks!");
+        input.nextLine();
+        System.out.println("You look at your stats:");
+        System.out.println("| Your Name: "+player.getName()+"\n| Your Team: ");
+        Pokemon[] team = player.getTeam();
+        int num = 1; // displayed number
+        for (Pokemon p : team) {
+            String name = (p == null) ? "none" : p.getName();
+            System.out.print("\t\t"+num+". "+name);
+            if (p != null){
+              System.out.print(" | HP: "+p.getHP()+" | ");
+              System.out.println("MOVES: "+p.getMoveOne().getName()+", "+p.getMoveTwo().getName()+", "+p.getMoveThree().getName()+", "+p.getMoveFour().getName());
+            } else {
+              System.out.println();
+            }
+            num++;
+        }
+        System.out.print("> Only three? How stingy!");
         input.nextLine();
         System.out.print("\u001b[0m\u001b[1m\nYoungster Samarium99:\t");
         System.out.print("\u001b[0mSeems like it's almost your time to shine! Someone's approaching...Good luck, "+userName+"!!!");
@@ -86,14 +106,14 @@ public class Driver{
         input.nextLine();
     }
     public static void printResults() {
-        // System.out.print("The game ended in ");
-        // if (player.lost() == gymLeader.lost()){
-        //     System.out.print("a DRAW.");
-        // } else if (player.lost()){
-        //     System.out.print("DEFEAT :(");
-        // } else if (gymLeader.lost()){
-        //     System.out.print("VICTORY! :D");
-        // }
+        System.out.print("The game ended in ");
+        if (player.lost() == gymLeader.lost()){
+            System.out.print("a DRAW.");
+        } else if (player.lost()){
+            System.out.print("DEFEAT :(");
+        } else if (gymLeader.lost()){
+            System.out.print("VICTORY! :D");
+        }
     }
 
     public static String intToString(int num){
@@ -187,7 +207,7 @@ public class Driver{
         player.switchActivePokemon(selected);
         return;
       }
-      selectPokemon(input);
+      ask(input);
     }
 
     public static void selectMove(Scanner input){
@@ -224,41 +244,34 @@ public class Driver{
     public static void response(){
       int chooseMove;
       Move movex = null;
-      if(gymLeader.getActivePokemon().getFaint() == true){
+      if(gymLeader.getActivePokemon().getFaint() == true){ // end round
           System.out.println("Opponents active pokemon has fainted");
-          if(!gymLeader.lost()){
-            System.out.println("Opponent has lost");
-              return;
-          }else{
-              gymLeader.switchActivePokemon();
-              System.out.println("Opponents new active pokemon is " + gymLeader.getActivePokemon().getName());
+          if (gymLeader.switchActivePokemon()) {
+            System.out.println("Opponents new active pokemon is " + gymLeader.getActivePokemon().getName());
+          } else {
+            return;
           }
-      } else {
+      } else { // regular turns
+        chooseMove = random.nextInt(4) + 1;
+        if(chooseMove == 1){
+            movex = gymLeader.getActivePokemon().getMoveOne();
+        } else if(chooseMove == 2){
+            movex = gymLeader.getActivePokemon().getMoveTwo();
+        }  else if(chooseMove == 3){
+            movex = gymLeader.getActivePokemon().getMoveThree();
+        } else if(chooseMove == 4){
+            movex = gymLeader.getActivePokemon().getMoveFour();
+        }
+        doMove2(movex);
 
-      chooseMove = random.nextInt(4) + 1;
-      movex = null;
-      if(chooseMove == 1){
-          movex = gymLeader.getActivePokemon().getMoveOne();
-      } else if(chooseMove == 2){
-          movex = gymLeader.getActivePokemon().getMoveTwo();
-      }  else if(chooseMove == 3){
-          movex = gymLeader.getActivePokemon().getMoveThree();
-      } else if(chooseMove == 4){
-          movex = gymLeader.getActivePokemon().getMoveFour();
-      }
-      doMove2(movex);
-
-      if(player.getActivePokemon().getFaint() == true){
-          System.out.println("Your active pokemon has fainted");
-          if(!player.lost()){
-            System.out.println("You have lost");
+        if(player.getActivePokemon().getFaint() == true){
+            System.out.println("Your active pokemon has fainted");
+            if (player.switchActivePokemon()) {
+              System.out.println("Your new active pokemon is " + player.getActivePokemon().getName());
+            } else {
               return;
-          }
-          else{
-              player.switchActivePokemon();
-              System.out.println("Your new active pokemone is " + player.getActivePokemon().getName());
-          }
-      }
+            }
+        }
       }
     }
 

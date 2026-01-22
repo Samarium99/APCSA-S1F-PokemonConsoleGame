@@ -23,20 +23,20 @@ public abstract class Trainer {
     public Pokemon getActivePokemon(){
         return activePokemon;
     }
-    public abstract boolean switchActivePokemon(Pokemon newActive); // overloaded switchActivePokemon for when player manually switches pokemon
-    public void switchActivePokemon(){ // as a result of fainted current
+    public abstract void switchActivePokemon(Pokemon newActive); // overloaded switchActivePokemon for when player manually switches pokemon
+    public boolean switchActivePokemon(){ // as a result of fainted current
         if (!lost()){
             for (int i = 0; i < team.length; i++){
                 if (team[i] != null && !team[i].getFaint()){
                     activePokemon = team[i];
-                    System.out.println(name+" sends out "+activePokemon.getName()+"!");
-                    return;
+                    System.out.println(this.name+" sends out "+activePokemon.getName()+"!");
+                    return true;
                 }
             }
-        } else{
-            System.out.println("All Pokemon in party have Fainted");
-            activePokemon = null;
         }
+        System.out.println("All Pokemon in "+this.name+"'s party have Fainted");
+        activePokemon = null;
+        return false;
     }
     // lost() : returns true if all members of the team isFainted or null.
     public boolean lost() {
@@ -46,6 +46,9 @@ public abstract class Trainer {
             }
         }
         return true;
+    }
+    public String getName(){
+      return name;
     }
     public Pokemon[] getTeam(){
       return team;
