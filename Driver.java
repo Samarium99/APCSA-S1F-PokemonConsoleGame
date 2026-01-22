@@ -108,11 +108,20 @@ public class Driver{
     public static void printResults() {
         System.out.print("The game ended in ");
         if (player.lost() == gymLeader.lost()){
-            System.out.print("a DRAW.");
+            System.out.println("a DRAW.");
+            System.out.print("\u001b[0m\u001b[1mYoungster Samarium99:\t");
+            System.out.println("\u001b[0m You win some, you lose some, and some, you do neither...");
+            System.out.print("> hmmm...");
         } else if (player.lost()){
-            System.out.print("DEFEAT :(");
+            System.out.println("DEFEAT :(");
+            System.out.print("\u001b[0m\u001b[1mYoungster Samarium99:\t");
+            System.out.println("\u001b[0m womp womp");
+            System.out.print("> ...You were watching?");
         } else if (gymLeader.lost()){
-            System.out.print("VICTORY! :D");
+            System.out.println("VICTORY! :D");
+            System.out.print("\u001b[0m\u001b[1mYoungster Samarium99:\t");
+            System.out.println("\u001b[0m Whoa, you actually won? Congrats?");
+            System.out.print("> Thanks, I guess?");
         }
     }
 
